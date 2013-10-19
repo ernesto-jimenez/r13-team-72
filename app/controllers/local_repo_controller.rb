@@ -1,5 +1,5 @@
 require 'rugged'
-require './app/models/repository.rb'
+require_relative '../models/repository.rb'
 
 class LocalRepoController
   BASE_DIR = './repos'
