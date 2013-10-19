@@ -2,7 +2,7 @@ require 'open3'
 require 'rugged'
 require_relative '../models/repository.rb'
 
-class LocalRepoController
+class RepoAnalyzer
   BASE_DIR = './repos'
   attr_reader :repository
 
@@ -10,7 +10,7 @@ class LocalRepoController
     @repository = repository
   end
 
-  def analyse_last_commits
+  def analyze_last_commits
     pull_master
     walk(@repository.last_commit) do |commit|
       saved_commit = save_commit(commit)
