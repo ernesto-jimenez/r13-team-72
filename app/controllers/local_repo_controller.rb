@@ -26,8 +26,9 @@ class LocalRepoController
   end
 
   def run(*cmds)
-    output, status = Open3.capture2e(*cmds)
-    return output
+    stdout, stderr, status = Open3.capture3(*cmds)
+    puts stderr
+    return stdout
   end
 
   def run_rubocop(commit)
