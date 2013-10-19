@@ -5,3 +5,4 @@ Vagrantfile
 Gemfile.lock
 rubykaizen.sublime-*
 *.css
+.bundle

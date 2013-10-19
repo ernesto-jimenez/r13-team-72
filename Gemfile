@@ -12,3 +12,7 @@ group :test do
   gem 'rspec'
   gem 'rack-test', :require => 'rspec/core/rake_task'
 end
+
+group :development do
+  gem 'rerun'
+end

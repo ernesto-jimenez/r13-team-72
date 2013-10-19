@@ -6,5 +6,5 @@ set :environment, env
 
 desc 'Runs a develop webserver'
 task :server do
-  puts `rerun -- rackup --port 9393 config.ru`
+  puts `rerun -- rackup --port 9292 config.ru`
 end
