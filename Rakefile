@@ -19,6 +19,15 @@ task :queue_repo, :repo do |t, args|
   Resque.enqueue(FetchRepo, repo.id)
 end
 
+desc 'Complete changed_files for existing commits'
+task :complete_changed_files do
+  Repository.each do |repo|
+    analyzer = RepoAnalyzer.new(repo)
+    analyzer.complete_missing_changed_files
+  end
+end
+
+desc 'Restart god workers'
 namespace :queue do
   task :restart_workers => :environment do
     pids = Array.new

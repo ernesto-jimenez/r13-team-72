@@ -14,6 +14,7 @@ class RepoAnalyzer
     pull_master
     walk(@repository.last_commit) do |commit|
       saved_commit = save_commit(commit)
+      update_commit_changed_files(saved_commit)
       report_saved = run_rubocop(saved_commit)
       if report_saved
         @repository.last_commit = commit.oid
@@ -23,6 +24,25 @@ class RepoAnalyzer
       end
     end
     return true
+  end
+
+  def complete_missing_changed_files
+    pull_master
+    @repository.commits.where(changed_files: nil).each do |commit|
+      update_commit_changed_files(commit)
+    end
+    return true
+  end
+
+  private
+  def update_commit_changed_files(commit)
+    git_show = ""
+    Dir.chdir(work_directory) do
+      git_show = run('git', 'show', '--name-only', '--oneline', commit.sha1)
+    end
+    changed_files = git_show.split("\n")[1..-1]
+    commit.changed_files = changed_files
+    commit.save
   end
 
   def run(*cmds)
@@ -91,7 +111,6 @@ class RepoAnalyzer
     return true
   end
 
-  private
   def work_directory
     File.join(BASE_DIR, @repository.id)
   end
