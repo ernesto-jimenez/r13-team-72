@@ -8,3 +8,4 @@ rubykaizen.sublime-*
 vendor/bundles/**/*
 bin/*
 repos/*
+dump.rdb
