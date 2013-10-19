@@ -8,6 +8,8 @@ gem 'sass'
 gem 'compass'
 gem 'rake'
 gem 'capistrano', '~> 2.15'
+gem "capistrano-resque", "~> 0.1.0", :require => false
+gem 'resque'
 
 group :test do
   gem 'rspec'

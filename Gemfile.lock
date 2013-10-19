@@ -1,12 +1,17 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    atomic (1.1.14)
     capistrano (2.15.5)
       highline
       net-scp (>= 1.0.0)
       net-sftp (>= 2.0.0)
       net-ssh (>= 2.0.14)
       net-ssh-gateway (>= 1.1.0)
+    capistrano-resque (0.1.0)
+      capistrano
+      resque
+      resque-scheduler
     chunky_png (1.2.9)
     compass (0.12.2)
       chunky_png (~> 1.2)
@@ -21,6 +26,8 @@ GEM
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
       rb-kqueue (>= 0.2)
+    mono_logger (1.1.0)
+    multi_json (1.8.2)
     mysql2 (0.3.13)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
@@ -40,9 +47,22 @@ GEM
       ffi (>= 0.5.0)
     rb-kqueue (0.2.0)
       ffi (>= 0.5.0)
+    redis (3.0.5)
+    redis-namespace (1.3.1)
+      redis (~> 3.0.0)
     ref (1.0.5)
     rerun (0.8.2)
       listen (~> 1.0.3)
+    resque (1.24.1)
+      mono_logger (~> 1.0)
+      multi_json (~> 1.0)
+      redis-namespace (~> 1.2)
+      sinatra (>= 0.9.2)
+      vegas (~> 0.1.2)
+    resque-scheduler (2.2.0)
+      redis (>= 3.0.0)
+      resque (>= 1.20.0, < 1.25)
+      rufus-scheduler (~> 2.0)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
@@ -51,6 +71,8 @@ GEM
     rspec-expectations (2.14.3)
       diff-lcs (>= 1.1.3, < 2.0)
     rspec-mocks (2.14.4)
+    rufus-scheduler (2.0.24)
+      tzinfo (>= 0.3.22)
     sass (3.2.12)
     sinatra (1.4.3)
       rack (~> 1.4)
@@ -63,18 +85,26 @@ GEM
     therubyracer (0.12.0)
       libv8 (~> 3.16.14.0)
       ref
+    thread_safe (0.1.3)
+      atomic
     tilt (1.4.1)
+    tzinfo (1.1.0)
+      thread_safe (~> 0.1)
+    vegas (0.1.11)
+      rack (>= 1.0.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   capistrano (~> 2.15)
+  capistrano-resque (~> 0.1.0)
   compass
   mysql2
   rack-test
   rake
   rerun
+  resque
   rspec
   sass
   sinatra
