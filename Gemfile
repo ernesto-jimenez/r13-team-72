@@ -13,7 +13,7 @@ gem 'resque'
 gem 'mongoid', "~> 3.0.0"
 gem "octokit", "~> 2.0"
 gem 'rugged', git: 'git://github.com/libgit2/rugged.git', branch: 'development', submodules: true
-gem 'rubocop'
+gem 'rubocop', :require => false
 
 group :test do
   gem 'rspec'
