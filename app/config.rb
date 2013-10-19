@@ -6,10 +6,8 @@ configure do
     '7ad377314cd2a6692b25b8fb12a'
   set :public_folder, File.join(settings.root, '..', 'public')
 
-  # sass
-  # in public/stylesheets/sass/ by default
-  Sass::Plugin.options[:template_location] = File.join(
-    settings.public_folder, 'sass')
+  # sass templates by default in public/stylesheets/sass
+  use Sass::Plugin::Rack
 
   # partials plugin
   set :partial_template_engine, :erb

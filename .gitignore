@@ -4,3 +4,4 @@ Vagrantfile
 .sass-cache
 Gemfile.lock
 rubykaizen.sublime-*
+*.css
