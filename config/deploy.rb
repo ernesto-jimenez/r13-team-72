@@ -75,7 +75,10 @@ role :resque_scheduler, LINODE_SERVER_HOSTNAME
 # Add Configuration Files & Compile Assets
 after 'deploy:update_code' do
   # Setup Configuration
-  #run "cp #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+  run "cp #{shared_path}/config/mongoid.yml #{release_path}/config/mongoid.yml"
+
+  # Link shared/repos
+  run "ln -s #{shared_path}/repos #{release_path}/repos"
 
   # Compile Assets
   #run "cd #{release_path}; RAILS_ENV=production bundle exec rake assets:precompile"
