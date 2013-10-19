@@ -1,0 +1,6 @@
+Vagrantfile
+.vagrant
+.DS_Store
+.sass-cache
+Gemfile.lock
+rubykaizen.sublime-*
