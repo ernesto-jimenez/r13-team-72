@@ -7,6 +7,7 @@ gem 'sinatra-partial', :require => 'sinatra/partial'
 gem 'sass'
 gem 'compass'
 gem 'rake'
+gem 'capistrano', '~> 2.15'
 
 group :test do
   gem 'rspec'
@@ -16,3 +17,9 @@ end
 group :development do
   gem 'rerun'
 end
+
+group :production do
+  gem 'mysql2'
+  gem 'therubyracer'
+end
+
