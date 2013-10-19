@@ -1,2 +1,8 @@
 <h1>Landing page</h1>
-<p>:D</p>
+
+<h2>Repos</h2>
+<ul>
+<% @repos.each do |r| %>
+  <li><%= r.name %></li>
+<% end %>
+</ul>

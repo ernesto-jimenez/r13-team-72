@@ -12,8 +12,11 @@ This is an entry for [Rails Rumble 2013](http://railsrumble.com/), a 48-hour web
 
 ### Requirements
 
+- OpenSSL
+- MongoDB
+- Redis
 - Ruby 2.0
-- Bundler (`gem install bundler`)
+- Bundler
 
 ### Run app locally
 
@@ -34,6 +37,7 @@ QUEUE='*' rake resque:work
 To start processing a repo you can do the following:
 
 ```bash
+mkdir repos
 rake queue_repo\[https://github.com/flori/json\]
 ```
 

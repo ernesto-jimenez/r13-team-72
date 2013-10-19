@@ -1,2 +1,7 @@
-<h1>Repo: Waka</h1>
-<p>Lorem ipsum matar hipsters sit amet.</p>
+<h1><%= @repo.owner %>/<%= @repo.name %></h1>
+<p>Commits</p>
+<ul>
+<% @repo.commits.reject{|x| x.rubocop.nil?}.reverse.each do |c| %>
+  <li><a href="<%= commit_url c %>"><%= c.sha1 %></a></li>
+<% end %>
+</ul>

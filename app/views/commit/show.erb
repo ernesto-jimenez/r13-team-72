@@ -1,0 +1,28 @@
+<h1>Report for commit <%= @report.commit.sha1 %></h1>
+<p>From repo <a href="<%= repo_url @repo %>">
+  <%= @repo.owner %>/<%= @repo.name %></a></p>
+
+<h2>Delta for this commit</h2>
+<dl>
+  <dt>Offence-free files</dt>
+  <dd><%= @report.delta_offence_free_files.size %></dd>
+
+  <dt>Offenses</dt>
+  <dd><dl>
+  <% @report.delta_offence_files.each do |f| %>
+    <dt><%= f['path'] %></dt>
+    <% f['offences'].group_by{|x| x[:level]}.each do |level, offences| %>
+      <dd><dl>
+        <dt><%= level %></dt>
+        <% offences.each do |offence| %>
+          <dd><%= offence %></dd>
+        <% end %>
+      </dl></dd>
+    <% end %>
+  <% end %>
+  </dl></dd>
+</dl>
+
+<h2>Global stats</h2>
+
+<p>Total files: <%= @report.files.count %></p>

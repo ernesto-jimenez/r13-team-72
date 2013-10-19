@@ -1,4 +1,5 @@
 get '/' do
+  @repos = Repository.all.to_a
   erb :'site/home'
 end
 
