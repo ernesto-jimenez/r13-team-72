@@ -22,6 +22,7 @@ class LocalRepoController
         raise "Report not saved for commit #{commit.sha1}"
       end
     end
+    return true
   end
 
   def run(*cmds)
@@ -58,6 +59,7 @@ class LocalRepoController
     walker.push('master')
     walker.hide(since) if since
     walker.each(&block)
+    return true
   end
 
   def checkout(id)
@@ -65,6 +67,7 @@ class LocalRepoController
       run('git', 'checkout', id, '-f')
       run('git', 'clean', '-df')
     end
+    return true
   end
 
   def pull_master
@@ -73,6 +76,7 @@ class LocalRepoController
       run('git', 'pull', 'origin', 'master')
     end
     checkout('master')
+    return true
   end
 
   def clone
