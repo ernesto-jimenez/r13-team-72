@@ -10,10 +10,24 @@ This is an entry for [Rails Rumble 2013](http://railsrumble.com/), a 48-hour web
 
 ## For developers
 
+### Requirements
+
+- Ruby 2.0
+- Bundler (`gem install bundler`)
+
 ### Run app locally
 
-```bash
+Checkout and install dependencies:
+
+```
+git clone git@github.com:railsrumble/r13-team-72.git
 bundle install
+```
+
+The `server` task starts WEBrick and auto-reloads code:
+
+```bash
+
 rake server
 ```
 
