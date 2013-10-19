@@ -19,8 +19,8 @@ configure do
   # partials plugin
   set :partial_template_engine, :erb
   enable :partial_underscores
+  Resque.redis = Redis.new
 end
-
 
 configure :development do
 end
