@@ -27,8 +27,14 @@ bundle install
 The `server` task starts WEBrick and auto-reloads code:
 
 ```bash
-
 rake server
+QUEUE='*' rake resque:work
+```
+
+To start processing a repo you can do the following:
+
+```bash
+rake queue_repo\[https://github.com/flori/json\]
 ```
 
 ### Tests

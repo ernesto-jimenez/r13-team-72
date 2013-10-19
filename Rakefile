@@ -5,7 +5,7 @@ Bundler.require(:default, env)
 set :environment, env
 
 require 'resque/tasks'
-Dir["./app/workers/*.rb"].each {|file| require file }
+Dir["app/**/*.rb"].each {|file| require_relative file }
 
 desc 'Runs a develop webserver'
 task :server do
@@ -13,7 +13,8 @@ task :server do
 end
 
 desc 'Queue repository to fetch'
-task :queue_repo, :repo, :last_commit do |t, args|
-  Resque.enqueue(FetchRepo, args[:repo], args[:last_commit])
+task :queue_repo, :repo do |t, args|
+  repo = Repository.from_url(args[:repo])
+  Resque.enqueue(FetchRepo, repo.id)
 end
 
