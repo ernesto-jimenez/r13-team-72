@@ -10,6 +10,10 @@ gem 'rake'
 gem 'capistrano', '~> 2.15'
 gem "capistrano-resque", "~> 0.1.0", :require => false
 gem 'resque'
+gem 'mongoid', "~> 3.0.0"
+gem "octokit", "~> 2.0"
+gem 'rugged', git: 'git://github.com/libgit2/rugged.git', branch: 'development', submodules: true
+gem 'rubocop'
 
 group :test do
   gem 'rspec'
@@ -21,7 +25,6 @@ group :development do
 end
 
 group :production do
-  gem 'mysql2'
   gem 'therubyracer'
 end
 
