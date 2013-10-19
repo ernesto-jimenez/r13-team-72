@@ -33,7 +33,6 @@ require 'bundler/capistrano'
 
 GITHUB_REPOSITORY_NAME = 'r13-team-72'
 LINODE_SERVER_HOSTNAME = 'rubykaizen.com'
-WORKER_COUNT = 1
 
 #############################################
 #############################################
@@ -70,8 +69,6 @@ set :branch,     "master"
 # Roles
 role :app, LINODE_SERVER_HOSTNAME
 role :db,  LINODE_SERVER_HOSTNAME, :primary => true
-role :resque_worker, LINODE_SERVER_HOSTNAME
-role :resque_scheduler, LINODE_SERVER_HOSTNAME
 
 # Add Configuration Files & Compile Assets
 after 'deploy:update_code' do
@@ -106,19 +103,4 @@ deploy.task :reload_god_config do
 end
 
 after :deploy, 'deploy:reload_god_config'
-
-desc "Start resque workers"
-deploy.task :workers_start, :roles => :resque_worker do
-  # Start n workers with separate run commands, so we can store their PIDs
-  1.upto(WORKER_COUNT) do |i|
-    run "#{sudo as: 'www-data'} /bin/sh -c 'if [ ! -e #{deploy_to}/shared/pids/resque_production_#{i}.pid ]; then cd #{deploy_to}/current && RACK_ENV=production QUEUE=* PIDFILE=#{deploy_to}/shared/pids/resque_production_#{i}.pid BACKGROUND=yes bundle exec rake resque:work; fi;'"
-  end
-end
-
-desc "Stop resque workers"
-deploy.task :workers_stop, :roles => :resque_worker do
-  1.upto(WORKER_COUNT) do |i|
-    run "if [ -e #{deploy_to}/shared/pids/resque_production_#{i}.pid ]; then echo \"Killing Worker #1\"; kill -s QUIT `cat #{deploy_to}/shared/pids/resque_production_#{i}.pid`; rm -f #{deploy_to}/shared/pids/resque_production_#{i}.pid; echo \"Done\"; fi;"
-  end
-end
 
