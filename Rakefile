@@ -6,6 +6,7 @@ set :environment, env
 
 require 'resque/tasks'
 Dir["app/**/*.rb"].each {|file| require_relative file }
+Mongoid.load!(File.join(__dir__, 'config', 'mongoid.yml'))
 
 desc 'Runs a develop webserver'
 task :server do

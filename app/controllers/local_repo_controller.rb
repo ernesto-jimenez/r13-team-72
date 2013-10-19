@@ -1,3 +1,4 @@
+require 'open3'
 require 'rugged'
 require_relative '../models/repository.rb'
 
@@ -23,11 +24,16 @@ class LocalRepoController
     end
   end
 
+  def run(*cmds)
+    output, status = Open3.capture2e(*cmds)
+    return output
+  end
+
   def run_rubocop(commit)
     Dir.chdir(work_directory) do
-      system('git', 'checkout', commit.sha1)
+      run('git', 'checkout', commit.sha1)
       report = commit.rubocop || commit.build_rubocop
-      report.output = JSON.parse(`rubocop -f json`)
+      report.output = JSON.parse(run('rubocop', '-f', 'json'))
       return report.save
     end
   end
@@ -56,15 +62,15 @@ class LocalRepoController
 
   def checkout(id)
     Dir.chdir(work_directory) do
-      system('git', 'checkout', id, '-f')
-      system('git', 'clean', '-df')
+      run('git', 'checkout', id, '-f')
+      run('git', 'clean', '-df')
     end
   end
 
   def pull_master
     clone
     Dir.chdir(work_directory) do
-      system('git', 'pull', 'origin', 'master')
+      run('git', 'pull', 'origin', 'master')
     end
     checkout('master')
   end
@@ -73,8 +79,8 @@ class LocalRepoController
     if !File.exists?(work_directory)
       Dir.mkdir(work_directory)
       Dir.chdir(work_directory) do
-        system('git', 'init', '.')
-        system('git', 'remote', 'add', 'origin', @repository.clone_url)
+        run('git', 'init', '.')
+        run('git', 'remote', 'add', 'origin', @repository.clone_url)
       end
     end
     return true

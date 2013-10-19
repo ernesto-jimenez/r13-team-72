@@ -33,6 +33,7 @@ require 'bundler/capistrano'
 
 GITHUB_REPOSITORY_NAME = 'r13-team-72'
 LINODE_SERVER_HOSTNAME = 'rubykaizen.com'
+WORKER_COUNT = 1
 
 #############################################
 #############################################
@@ -81,7 +82,7 @@ after 'deploy:update_code' do
   run "ln -s #{shared_path}/repos #{release_path}/repos"
 
   # Compile Assets
-  #run "cd #{release_path}; RAILS_ENV=production bundle exec rake assets:precompile"
+  #run "cd #{release_path}; RACK_ENV=production bundle exec rake assets:precompile"
 end
 
 # Restart Passenger
@@ -89,9 +90,26 @@ deploy.task :restart, :roles => :app do
   # Fix Permissions
   sudo "chown -R www-data:www-data #{current_path}"
   sudo "chown -R www-data:www-data #{latest_release}"
+  sudo "chown -R www-data:www-data #{shared_path}/repos"
   sudo "chown -R www-data:www-data #{shared_path}/bundle"
   sudo "chown -R www-data:www-data #{shared_path}/log"
 
   # Restart Application
   run "touch #{current_path}/tmp/restart.txt"
 end
+
+desc "Start resque workers"
+deploy.task :workers_start, :roles => :resque_worker do
+  # Start n workers with separate run commands, so we can store their PIDs
+  1.upto(WORKER_COUNT) do |i|
+    run "#{sudo as: 'www-data'} /bin/sh -c 'if [ ! -e #{deploy_to}/shared/pids/resque_production_#{i}.pid ]; then cd #{deploy_to}/current && RACK_ENV=production QUEUE=* PIDFILE=#{deploy_to}/shared/pids/resque_production_#{i}.pid BACKGROUND=yes bundle exec rake resque:work; fi;'"
+  end
+end
+
+desc "Stop resque workers"
+deploy.task :workers_stop, :roles => :resque_worker do
+  1.upto(WORKER_COUNT) do |i|
+    run "if [ -e #{deploy_to}/shared/pids/resque_production_#{i}.pid ]; then echo \"Killing Worker #1\"; kill -s QUIT `cat #{deploy_to}/shared/pids/resque_production_#{i}.pid`; rm -f #{deploy_to}/shared/pids/resque_production_#{i}.pid; echo \"Done\"; fi;"
+  end
+end
+
