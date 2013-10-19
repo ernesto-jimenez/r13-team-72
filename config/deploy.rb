@@ -98,6 +98,15 @@ deploy.task :restart, :roles => :app do
   run "touch #{current_path}/tmp/restart.txt"
 end
 
+desc "Hot-reload God configuration for the Resque worker"
+deploy.task :reload_god_config do
+  sudo "god stop resque"
+  sudo "god load #{File.join deploy_to, 'current', 'config', 'resque.god'}"
+  sudo "god start resque"
+end
+
+after :deploy, 'deploy:reload_god_config'
+
 desc "Start resque workers"
 deploy.task :workers_start, :roles => :resque_worker do
   # Start n workers with separate run commands, so we can store their PIDs

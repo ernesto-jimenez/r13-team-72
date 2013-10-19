@@ -19,3 +19,18 @@ task :queue_repo, :repo do |t, args|
   Resque.enqueue(FetchRepo, repo.id)
 end
 
+namespace :queue do
+  task :restart_workers => :environment do
+    pids = Array.new
+
+    Resque.workers.each do |worker|
+      pids << worker.to_s.split(/:/).second
+    end
+
+    if pids.size > 0
+      system("kill -QUIT #{pids.join(' ')}")
+    end
+
+    system("rm /var/run/god/resque-*.pid")
+  end
+end
