@@ -2,7 +2,8 @@ Vagrantfile
 .vagrant
 .DS_Store
 .sass-cache
-Gemfile.lock
 rubykaizen.sublime-*
 *.css
 .bundle
+vendor/bundles/**/*
+bin/*
