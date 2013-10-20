@@ -1,7 +1,76 @@
-<h1><%= @repo.owner %>/<%= @repo.name %></h1>
-<p>Commits</p>
-<ul>
-<% @repo.commits.reject{|x| x.rubocop.nil?}.reverse.each do |c| %>
-  <li><a href="<%= commit_url c %>"><%= c.sha1 %></a></li>
-<% end %>
-</ul>
+<article id="main">
+<header class="project">
+  <h1 class="project-name">
+    <span class="repo-owner"><%= @repo.owner %> / </span><%= @repo.name %>
+  </h1>
+  <span class="score-tag"><i class="icon-rocket"></i> You rock!</span>
+</header><!--heading-->
+<div class="row">
+  <section id="viz">
+    <header class="block"><h1>Repository history</h1></header>
+    <img class="viz" src="/images/graph.svg" height="252" width="710" alt="graph">
+  </section>
+  <dl class="repo-stats">
+    <dt><h1>Ruby Kaizen points</h1></dt>
+    <dd class="number"><%= @report.score %></dd>
+  </dl><!--repo stats-->
+</div><!--row-->
+
+<div class="row">
+  <article class="ranking">
+    <h1>Contributors by score</h1>
+    <ol class="contributors">
+      <% contributors_by_score(@report).each do |author| %>
+      <li>
+        <aside><img src="<%= gravatar_url author[:email], 60 %>" height="60" width="60" alt="avatar"></aside>
+        <p class="name"><%= author[:name] %></p>
+        <p class="score"><%= author[:score] %> <span class="points-tag">points</span></p>
+      </li>
+      <% end %>
+    </ol><!--contributors-->
+  </article>
+  <article class="ranking">
+    <h1>Most common problems solved</h1>
+    <ol class="problems_solved">
+      <li>
+        <p class="name">Waka Waka Property</p>
+        <p class="score">58 <span class="occurrences-tag">occurrences</span></p>
+      </li>
+      <li>
+        <p class="name">Lala Uiui Property</p>
+        <p class="score">72 <span class="occurrences-tag">occurrences</span></p>
+      </li>
+      <li>
+        <p class="name">Nino Clic Property</p>
+        <p class="score">79 <span class="occurrences-tag">occurrences</span></p>
+      </li>
+      <li>
+        <p class="name">Flux Condenser broken</p>
+        <p class="score">35 <span class="occurrences-tag">occurrences</span></p>
+      </li>
+      <li>
+        <p class="name">Your code is a mess</p>
+        <p class="score">62 <span class="occurrences-tag">occurrences</span></p>
+      </li>
+    </ol><!--problems solved-->
+    <button type="button" class="more">View all solved problems</button>
+  </article>
+  <article class="last-commit">
+    <h1>Last commit</h1>
+    <dl class="last-commit-stats">
+      <dt>Made by</dt>
+      <dd class="contributor">
+        <aside><img src="<%= gravatar_url @last_commit.author_email, 60 %>" height="60" width="60"
+          alt="avatar"></aside>
+        <p class="name"><%= @last_commit.author %><p>
+        <p class="score"><%= @report.author_scores[@last_commit.author_email] %> <span class="points-tag">points</span></p>
+      </dd>
+      <dt>Message</dt>
+      <dd class="message"><%= @last_commit.subject %></dd>
+      <dt>Points in this commit</dt>
+      <dd class="score positive"><%= @last_commit.score %> <span class="points-tag">points</span></dd>
+    </dl>
+    <a href="<%= commit_url @last_commit %>" class="button">View commit details</a>
+  </article>
+</div><!--row-->
+</article>
