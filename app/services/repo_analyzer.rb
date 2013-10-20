@@ -54,8 +54,8 @@ class RepoAnalyzer
   end
 
   def run_rubocop(commit)
+    checkout(commit.sha1)
     Dir.chdir(work_directory) do
-      checkout(commit.sha1)
       report = commit.rubocop || commit.build_rubocop
       report.output = JSON.parse(run('rubocop', '-f', 'json'))
       return report.save
