@@ -12,7 +12,7 @@
   </section>
   <dl class="repo-stats">
     <dt><h1>Ruby Kaizen points</h1></dt>
-    <dd class="number">00100</dd>
+    <dd class="number"><%= @report.score %></dd>
   </dl><!--repo stats-->
 </div><!--row-->
 
@@ -24,11 +24,10 @@
       <li>
         <aside><img src="<%= gravatar_url author[:email], 60 %>" height="60" width="60" alt="avatar"></aside>
         <p class="name"><%= author[:name] %></p>
-        <p class="score"><%= author[:score] %><span class="points-tag">points</span></p>
+        <p class="score"><%= author[:score] %> <span class="points-tag">points</span></p>
       </li>
       <% end %>
     </ol><!--contributors-->
-    <button type="button" class="more">View all contributors</button>
   </article>
   <article class="ranking">
     <h1>Most common problems solved</h1>
@@ -61,25 +60,17 @@
     <dl class="last-commit-stats">
       <dt>Made by</dt>
       <dd class="contributor">
-        <aside><img src="/images/shepard.png" height="60" width="60"
+        <aside><img src="<%= gravatar_url @last_commit.author_email, 60 %>" height="60" width="60"
           alt="avatar"></aside>
-        <p class="name">fem_shep_forever<p>
-        <p class="score">22000 <span class="points-tag">points</span></p>
+        <p class="name"><%= @last_commit.author %><p>
+        <p class="score"><%= @last_commit.score %> <span class="points-tag">points</span></p>
       </dd>
       <dt>Message</dt>
-      <dd class="message">Waka waka eh eh</dd>
+      <dd class="message"><%= @last_commit.subject %></dd>
       <dt>Points in this commit</dt>
-      <dd class="score positive">125 <span class="points-tag">points</span></dd>
+      <dd class="score positive"><%= @last_commit.score %> <span class="points-tag">points</span></dd>
     </dl>
-    <button type="button" class="more">View commit details</button>
+    <a href="<%= commit_url @last_commit %>" class="button">View commit details</a>
   </article>
 </div><!--row-->
 </article>
-
-<h1><%= @repo.owner %>/<%= @repo.name %></h1>
-<p>Commits</p>
-<ul>
-<% @repo.commits.reject{|x| x.rubocop.nil?}.reverse.each do |c| %>
-  <li><a href="<%= commit_url c %>"><%= c.sha1 %></a></li>
-<% end %>
-</ul>
