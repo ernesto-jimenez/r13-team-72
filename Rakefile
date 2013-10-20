@@ -8,6 +8,11 @@ require 'resque/tasks'
 Dir["app/**/*.rb"].each {|file| require_relative file }
 Mongoid.load!(File.join(__dir__, 'config', 'mongoid.yml'))
 
+Resque.logger = Logger.new('log/resque.log','weekly')
+Resque.logger.formatter = proc do |severity, datetime, progname, msg|
+  "[#{datetime} ##{Process.pid}] #{progname} -- #{msg}\n"
+end
+
 desc 'Runs a develop webserver'
 task :server do
   puts `rerun -- rackup --port 9292 config.ru`

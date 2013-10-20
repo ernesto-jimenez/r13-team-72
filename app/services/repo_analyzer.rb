@@ -47,7 +47,9 @@ class RepoAnalyzer
 
   def run(*cmds)
     stdout, stderr, status = Open3.capture3(*cmds)
-    puts stderr
+    stderr.strip.split("\n").each do |msg|
+      Resque.logger.error(msg)
+    end
     return stdout
   end
 
