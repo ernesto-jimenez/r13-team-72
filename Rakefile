@@ -32,6 +32,14 @@ task :complete_changed_files do
   end
 end
 
+desc 'Recalculate commit and repo scores for a repo'
+task :recalculate_scores_for, :repo do |t, args|
+  repo = Repository.from_url(args[:repo])
+  puts repo.name
+  report = repo.repo_report || repo.build_repo_report
+  report.recalculate_score!
+end
+
 desc 'Recalculate commit and repo scores!'
 task :recalculate_scores do
   puts "Recalculating scores..."
