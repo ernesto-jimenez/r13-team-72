@@ -32,6 +32,16 @@ task :complete_changed_files do
   end
 end
 
+desc 'Recalculate commit and repo scores!'
+task :recalculate_scores do
+  puts "Recalculating scores..."
+  Repository.each do |repo|
+    puts repo.name
+    report = repo.repo_report || repo.build_repo_report
+    report.recalculate_score!
+  end
+end
+
 desc 'Restart god workers'
 namespace :queue do
   task :restart_workers => :environment do
