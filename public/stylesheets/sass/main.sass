@@ -42,7 +42,7 @@ div.row
     background: $blockBackground
     padding: 20px
     +border-radius(5px)
-    &.ranking
+    &.ranking, &.last-commit
       +column-1-3
   &:last-child
     margin-bottom: 0
@@ -71,7 +71,7 @@ img.viz
   display: block
   margin-top: 63px
 
-.ranking, dl
+.ranking, .last-commit
   h1
     font-size: 0.9em
     text-transform: uppercase
@@ -80,6 +80,30 @@ img.viz
     border-bottom: 1px solid $lineDark
     font-weight: 600
     letter-spacing: 0.03em
+
+dl.last-commit-stats
+  margin-top: 30px
+  dt
+    font-size: 0.9em
+    text-transform: uppercase
+    font-family: "rooney-sans",sans-serif
+    padding-bottom: 10px
+    border-bottom: 1px solid $line
+    font-weight: 400
+    letter-spacing: 0.03em
+    margin-top: 20px
+    margin-bottom: 15px
+    &:first-child
+      margin-top: 0
+  dd.contributor
+    +developer
+  dd.score
+    +points
+    opacity: 1
+    &.positive
+      color: $green
+    &.negative
+      color: $red
 
 dl.repo-stats
   background: $blockBackground
@@ -137,23 +161,7 @@ ol.contributors, ol.problems_solved, ol.offenses
       border-bottom: 1px solid $blockHover
     &:last-child
       border-bottom: none
-    p
-      &.name
-        font-size: 1.25em
-        padding-bottom: 10px
-        font-weight: 500
-      &.score
-        font-size: 2em
-        line-height: 24px
-        opacity: 0.4
-        span.points-tag, span.occurrences-tag
-          text-transform: uppercase
-          font-size: 0.4em
-          font-weight: 500
-    img
-      +border-radius(5px)
-      float: left
-      margin-right: 20px
+    +developer
 
 ol.problems_solved, ol.offenses
   li
@@ -208,3 +216,6 @@ footer
   margin-top: 70px
   border-top: 1px solid $line
   padding: 35px 0
+
+.repo-owner
+  color: #aab4bb

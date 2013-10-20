@@ -4,7 +4,29 @@
   margin-right: 2.5%
   &:last-child
     margin-right: 0
-    
+
 @mixin column-2-3
   float: left
   width: 65.82%
+
+@mixin points
+  font-size: 2em
+  line-height: 24px
+  opacity: 0.4
+  span.points-tag, span.occurrences-tag
+    text-transform: uppercase
+    font-size: 0.4em
+    font-weight: 500
+
+@mixin developer
+  p
+    &.name
+      font-size: 1.25em
+      padding-bottom: 10px
+      font-weight: 500
+    &.score
+      +points
+  img
+    +border-radius(5px)
+    float: left
+    margin-right: 20px
