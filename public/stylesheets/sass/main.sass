@@ -164,13 +164,7 @@ img.viz
 
 .ranking, .last-commit
   h1
-    font-size: 0.9em
-    text-transform: uppercase
-    font-family: "rooney-sans",sans-serif
-    padding-bottom: 10px
-    border-bottom: 1px solid $lineDark
-    font-weight: 600
-    letter-spacing: 0.03em
+    +section-heading
 
 dl.last-commit-stats
   margin-top: 30px
@@ -314,3 +308,47 @@ footer
 
 .repo-owner
   color: #aab4bb
+
+article.all-offences
+  +column-2-3
+  h1
+    +section-heading
+    margin-bottom: 20px
+  dt, dd
+    font-size: 1.25em
+    line-height: 30px
+    font-weight: 400
+  dt
+    border-bottom: 1px solid $line
+    padding-bottom: 10px
+    margin-bottom: 20px
+    margin-top: 30px
+    &:first-child
+      margin-top: 0
+  dd.fatal i
+    color: $red
+  dd.error i
+    color: $orange
+  dd.warning i
+    color: #fcd44f
+  dd.convention i
+    color: #999
+  dd i
+    margin-right: 10px
+    margin-left: 10px
+  dd:hover
+    background: $blockHover
+  dd
+    font-weight: light
+  a
+    color: $text-alt
+
+  span.location
+    width: 80px
+    text-align: right
+    display: inline-block
+    padding: 5px
+    margin-right: 10px
+    &:after
+      content: ':'
+

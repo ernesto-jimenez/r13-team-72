@@ -13,6 +13,9 @@ get '/repos/:user/:name/?' do |user, name|
     erb :'repo/loading'
   else
     @last_commit = @repo.commits.reverse.find{|x| not x.rubocop.nil? }
+    @all_offences = @last_commit.rubocop['output']['files'].reject do |x|
+      x['offences'].empty?
+    end
     erb :'repo/show'
   end
 end
