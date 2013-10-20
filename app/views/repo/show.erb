@@ -63,7 +63,7 @@
         <aside><img src="<%= gravatar_url @last_commit.author_email, 60 %>" height="60" width="60"
           alt="avatar"></aside>
         <p class="name"><%= @last_commit.author %><p>
-        <p class="score"><%= @last_commit.score %> <span class="points-tag">points</span></p>
+        <p class="score"><%= @report.author_scores[@last_commit.author_email] %> <span class="points-tag">points</span></p>
       </dd>
       <dt>Message</dt>
       <dd class="message"><%= @last_commit.subject %></dd>
