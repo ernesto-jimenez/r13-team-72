@@ -6,9 +6,9 @@
   <div class="repo-browse">
     <h1>In the meantime, why not browse one of these repositories?</h1>
     <ul class="repo-examples">
-      <li>Repo 1</li>
-      <li>Repo 2</li>
-      <li>Repo 3</li>
+      <% featured_repos.each do |r| %>
+        <li><a href="<%= repo_url r %>"><span class="owner"><%= r.owner %> /</span> <%= r.name %></a></li>
+      <% end %>
     </ul>
   </div><!--repo browse-->
 </article>

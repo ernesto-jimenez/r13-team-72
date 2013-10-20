@@ -27,7 +27,7 @@
   <div id="examples-container">
     <h1>Browse one of these repositories and see their scores</h1>
     <ul class="repo-examples">
-      <% @repos.each do |r| %>
+      <% featured_repos.each do |r| %>
         <li><a href="<%= repo_url r %>"><span class="owner"><%= r.owner %> /</span> <%= r.name %></a></li>
       <% end %>
     </ul>

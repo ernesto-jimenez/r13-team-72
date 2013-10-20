@@ -1,2 +1,13 @@
-<h1>We took note of repo @repo</h1>
-<p>in the mean time, check one of these repos</p>
+<article id="main">
+  <header class="error">
+  <h1>We took note of that repo</h1>
+  </header>
+  <div class="repo-browse">
+    <h1>You can also browse these repositories</h1>
+    <ul class="repo-examples">
+      <% featured_repos.each do |r| %>
+        <li><a href="<%= repo_url r %>"><span class="owner"><%= r.owner %> /</span> <%= r.name %></a></li>
+      <% end %>
+    </ul>
+  </div><!--repo browse-->
+</article>

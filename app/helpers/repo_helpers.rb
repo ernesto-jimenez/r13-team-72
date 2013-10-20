@@ -15,4 +15,8 @@ helpers do
     else 'icon-flag'
     end
   end
+
+  def featured_repos
+    Repository.where(featured: true).all
+  end
 end
