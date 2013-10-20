@@ -1,6 +1,10 @@
 get '/' do
-  @repos = Repository.all.to_a
-  erb :'site/home'
+  if params[:screenshot]
+    erb :'site/screenshot', layout: false
+  else
+    @repos = Repository.all
+    erb :'site/home'
+  end
 end
 
 get '/repo/waka/?' do
