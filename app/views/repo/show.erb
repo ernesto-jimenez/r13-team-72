@@ -59,4 +59,24 @@
     <a href="<%= commit_url @last_commit %>" class="button">View commit details</a>
   </article>
 </div><!--row-->
+<div class="row">
+  <article class="all-offences">
+    <h1>All offences</h1>
+    <% if @all_offences.empty? %>
+      <p>Congrats! Everything is clean.</p>
+    <% else %>
+      <dl><% @all_offences.each do |file| %>
+        <dt><%= file['path'] %></dt>
+        <% offences_by_severity(file['offences']).each do |offence| %>
+          <dd class="<%= offence['severity'] %>">
+            <i class="<%= icon_for_severity offence['severity'] %>"></i>
+            <a href="<%= github_file_url @last_commit, file['path'], offence['location']['line'] %>">
+              <span class="location"><%= offence['location']['line'] %></span> <%= offence['message'] %>
+            </a></dd>
+        <% end %>
+      <% end %></dl>
+    <% end %>
+
+  </article>
+</div>
 </article>

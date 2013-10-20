@@ -1,9 +1,9 @@
 helpers do
   LEVELS = {
-    'convention' => 0,
-    'warning' => 1,
-    'error' => 2,
-    'fatal' => 3
+    'convention' => 3,
+    'warning' => 2,
+    'error' => 1,
+    'fatal' => 0
   }
 
   def offences_by_severity(offences)
