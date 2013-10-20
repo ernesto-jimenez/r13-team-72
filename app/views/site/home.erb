@@ -1,8 +1,29 @@
-<h1>Landing page</h1>
+<header id="home">
+  <div class="tagline">
+    <h1>Ruby Kaizen</h1>
+    <h2>Improve your code</br>one commit at a time</h2>
+  </div><!--tagline-->
+</header>
+<section id="examples">
+  <div id="examples-container">
+    <h1>Browse one of these repositories and see their scores</h1>
+    <ul class="repo-examples">
+      <% @repos.each do |r| %>
+        <li><a href="<%= repo_url r %>"><%= r.owner %>/<%= r.name %></a></li>
+      <% end %>
+      <li class="repo-example">Repo 1</li>
+      <li class="repo-example">Repo 2</li>
+      <li class="repo-example">Repo 3</li>
+    </ul>
+  </div><!--examples container-->
+</section>
+<section id="search-repo">
+  <div class="search-container">
+    <h1>Or find our how any other repository is doing</h1>
+    <div id="search-bar">
+      <input type="text" name="repo-name-search" placeholder="Enter the URL of your repository">
+      <button type="button" class="search">Search</button>
+    </div><!--search bar-->
+  </div><!--search container-->
+</section>
 
-<h2>Repos</h2>
-<ul>
-<% @repos.each do |r| %>
-  <li><a href="<%= repo_url r %>"><%= r.owner %>/<%= r.name %></a></li>
-<% end %>
-</ul>
