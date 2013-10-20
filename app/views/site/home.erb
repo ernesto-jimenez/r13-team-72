@@ -36,10 +36,10 @@
 <section id="search-repo">
   <div class="search-container">
     <h1>Or find our how any other repository is doing</h1>
-    <div id="search-bar">
-      <input type="text" name="repo-name-search" placeholder="Enter the URL of your repository">
-      <button type="button" class="search">Search</button>
-    </div><!--search bar-->
+    <form id="search-bar" action="/repos" method="post" accept-charset="utf-8">
+      <input type="text" name="url" placeholder="Enter GitHub URL of your repository">
+      <button type="submit" class="search">Search</button>
+    </form>
   </div><!--search container-->
 </section>
 

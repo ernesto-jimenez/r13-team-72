@@ -3,9 +3,10 @@ require 'octokit'
 class Repository
   include Mongoid::Document
   include Mongoid::Timestamps
-  field :owner, type: String
-  field :name, type: String
+  field :owner,       type: String
+  field :name,        type: String
   field :last_commit, type: String, default: nil
+  field :featured,    type: Boolean, default: false
 
   has_many :commits
   has_one :repo_report
