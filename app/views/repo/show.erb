@@ -30,30 +30,16 @@
     </ol><!--contributors-->
   </article>
   <article class="ranking">
-    <h1>Most common problems solved</h1>
+    <h1>Top 5 offences</h1>
     <ol class="problems_solved">
+      <% offences_by_frequency(@last_commit)[0..4].each do |offence| %>
       <li>
-        <p class="name">Waka Waka Property</p>
-        <p class="score">58 <span class="occurrences-tag">occurrences</span></p>
+        <p class="name"><%= humanize_cop offence[:cop] %></p>
+        <p class="score"><%= offence[:freq] %> <span class="occurrences-tag">occurrences</span></p>
       </li>
-      <li>
-        <p class="name">Lala Uiui Property</p>
-        <p class="score">72 <span class="occurrences-tag">occurrences</span></p>
-      </li>
-      <li>
-        <p class="name">Nino Clic Property</p>
-        <p class="score">79 <span class="occurrences-tag">occurrences</span></p>
-      </li>
-      <li>
-        <p class="name">Flux Condenser broken</p>
-        <p class="score">35 <span class="occurrences-tag">occurrences</span></p>
-      </li>
-      <li>
-        <p class="name">Your code is a mess</p>
-        <p class="score">62 <span class="occurrences-tag">occurrences</span></p>
-      </li>
+      <% end %>
     </ol><!--problems solved-->
-    <button type="button" class="more">View all solved problems</button>
+    <!-- <button type="button" class="more">View all solved problems</button> -->
   </article>
   <article class="last-commit">
     <h1>Last commit</h1>
