@@ -1,28 +1,29 @@
 <h1>Report for commit <%= @report.commit.sha1 %></h1>
 <p>From repo <a href="<%= repo_url @repo %>">
   <%= @repo.owner %>/<%= @repo.name %></a></p>
+<p><strong>Message:</strong> <code><%= @report.commit.subject %></code></p>
 
 <h2>Delta for this commit</h2>
 <dl>
-  <dt>Offence-free files</dt>
-  <dd><%= @report.delta_offence_free_files.size %></dd>
+  <dt>Offence-free files (<%= @report.delta_offence_free_files.size %>)</dt>
+  <dd><ul><% @report.delta_offence_free_files do |f| %>
+    <li><%= f['path'] %></li>
+  <% end %></ul></dd>
 
-  <dt>Offenses</dt>
+  <dt>Files with Offenses (<%= @report.delta_offence_files.size %>)</dt>
   <dd><dl>
   <% @report.delta_offence_files.each do |f| %>
-    <dt><%= f['path'] %></dt>
-    <% f['offences'].group_by{|x| x[:level]}.each do |level, offences| %>
-      <dd><dl>
-        <dt><%= level %></dt>
-        <% offences.each do |offence| %>
-          <dd><%= offence %></dd>
-        <% end %>
-      </dl></dd>
-    <% end %>
+    <dt><code><%= f['path'] %></code>
+      (<%= f['offences'].size %> total, <%= f['delta_amount'] %>
+      <% if f['delta_amount'] > 0 %>
+        <span class="new-offences">new</span>
+      <% else %>
+        <span class="fixed-offences">fixed</span>
+      <% end %>)
+    </dt>
+    <dd><ul><% offences_by_severity(f['offences']).reverse.each do |offence| %>
+      <li><%= offence %></li>
+    <% end %></ul></dd>
   <% end %>
   </dl></dd>
 </dl>
-
-<h2>Global stats</h2>
-
-<p>Total files: <%= @report.files.count %></p>

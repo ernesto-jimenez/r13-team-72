@@ -39,22 +39,17 @@ class CommitReport
 
   def delta_offences
     return @delta_offences unless @delta_offences.nil?
-    puts "Computing delta offences..."
-    @delta_offences = []
-    self.files.each do |f|
-      puts "Scanning #{f['path']}"
-      previous_file = self.previous_files.find{|x| x['path'] == f['path']}
-      puts "Found previous one! #{previous_file['path']}" unless previous_file.nil?
 
-      if previous_file.nil? or f['offences'] != previous_file['offences']
-        puts "Different file!"
-        @delta_offences.push f
+    @delta_offences = []
+    @commit.changed_files.each do |filename|
+      if self.has_new_offence_status(filename)
+        file = self.files.find{|x| x['path'] == filename}
+        file['delta_amount'] = offence_delta_for_file(filename)
+        @delta_offences.push(file)
       end
-      puts @delta_offences
-      @delta_offences
     end
 
-    return @delta_offences
+    @delta_offences
   end
 
   def delta_offence_free_files
@@ -65,12 +60,23 @@ class CommitReport
     self.delta_offences.reject{|x| x['offences'].empty?}
   end
 
-  def offence_free_files
-    self.files.select{|x| x['offences'].empty?}
+  protected
+
+  def has_new_offence_status(filename)
+    file = self.files.find{|x| x['path'] == filename}
+    prev_file = self.previous_files.find{|x| x['path'] == filename}
+    return file && (prev_file.nil? || file['offences'] != prev_file['offences'])
   end
 
-  def offence_files
-    self.files.reject{|x| x['offences'].empty?}
+  def offence_delta_for_file(filename)
+    file = self.files.find{|x| x['path'] == filename}
+    prev_file = self.previous_files.find{|x| x['path'] == filename}
+
+    if prev_file.nil?
+      file['offences'].size
+    else
+      file['offences'].size - prev_file['offences'].size
+    end
   end
 
   def files

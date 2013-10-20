@@ -3,6 +3,6 @@
 <h2>Repos</h2>
 <ul>
 <% @repos.each do |r| %>
-  <li><%= r.name %></li>
+  <li><a href="<%= repo_url r %>"><%= r.owner %>/<%= r.name %></a></li>
 <% end %>
 </ul>
