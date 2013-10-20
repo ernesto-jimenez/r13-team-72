@@ -21,11 +21,11 @@ helpers do
   end
 
   def github_commit_url(commit)
-    [github_url(commit.repository), commit, commit.sha1].join('/')
+    [github_url(commit.repository), 'commit', commit.sha1].join('/')
   end
 
   def github_file_url(commit, file, line=nil)
-    url = [github_url(commit.repository), commit, commit.sha1, file].join('/')
+    url = [github_url(commit.repository), 'blob', commit.sha1, file].join('/')
     url << "#L#{line}" if line
   end
 
