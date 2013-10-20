@@ -26,4 +26,3 @@ end
 group :production do
   gem 'god'
 end
-
