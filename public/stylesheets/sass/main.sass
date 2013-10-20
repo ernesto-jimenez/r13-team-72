@@ -98,18 +98,20 @@ section#search-repo
     width: 80%
     margin: auto
     text-align: center
-    input
-      margin-top: 40px
-      padding: 10px 0 10px 20px
-      width: 75%
-      border: 1px solid $line
-      color: $NavFooter
-      font-family: "rooney-sans",sans-serif
-      font-size: 2em
-      line-height: 57px
-      +border-radius(5px)
-      position: relative
-      right: -100px
+
+form#search-bar
+  input
+    margin-top: 40px
+    padding: 10px 0 10px 20px
+    width: 75%
+    border: 1px solid $line
+    color: $NavFooter
+    font-family: "rooney-sans",sans-serif
+    font-size: 2em
+    line-height: 57px
+    +border-radius(5px)
+    position: relative
+    right: -100px
 
 section#about
   background: $blockBackground
@@ -142,6 +144,33 @@ button.search
   position: relative
   left: -116px
   top: -4px
+
+button#vote
+  background: $orange
+  border: 1px solid $orange
+  width: 230px
+  float: right
+  margin-top: 0
+  color: $white
+  text-decoration: none
+  cursor: pointer
+  a
+  &:hover, &:active
+    +single-transition(background, 0.5s, ease, 0)
+    background: $orangeHover
+    border-bottom: 1px solid $orangeHover
+
+header.error
+  border-bottom: 1px solid $line
+  padding-bottom: 70px
+  margin-bottom: 70px
+  text-align: center
+  h2
+    font-size: 1.5em
+    padding-top: 30px
+
+div.repo-browse
+  text-align: center
 
 
 h1.project-name
