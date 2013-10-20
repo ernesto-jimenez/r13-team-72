@@ -163,9 +163,9 @@ ol.problems_solved, ol.offenses
       padding-left: 40px
       
 button
-  background: $button
-  border: 1px solid $button
-  color: $white
+  background: none
+  border: 2px solid $button
+  color: $button
   box-shadow: none
   width: 100%
   padding: 10px
@@ -176,12 +176,13 @@ button
   margin-top: 20px
   &:hover, &:active
     +single-transition(background, 0.5s, ease, 0)
-    background: $buttonHover
-    border: 1px solid $buttonHover
+    background: $button
+    border: 1px solid $button
+    color: $white
   
 nav, footer
   width: 100%
-  padding: 30px 0
+  padding: 20px 0
   color: $NavFooter
   div.nav-links, div.footer-links
     width: 80%
@@ -195,16 +196,17 @@ nav
     float: left
   div.nav-links p
     float: right
-    line-height: 70px
+    line-height: 40px
     
 img#logo
   float: left
   
 h1#wordmark
   padding-left: 10px
-  line-height: 70px
+  line-height: 40px
+  font-size: 1.5em
   
 footer
   margin-top: 70px
   border-top: 1px solid $line
-  padding: 50px 0
+  padding: 35px 0
