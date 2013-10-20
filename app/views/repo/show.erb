@@ -5,7 +5,7 @@
     <span class="repo-owner"><%= @repo.owner %> / </span><%= @repo.name %>
     </a>
   </h1>
-  <span class="score-tag"><%= @report.score %> points</span>
+  <span class="score-tag"><%= @report.processed_commits.count %> commits - <%= @report.score %> points</span>
 </header><!--heading-->
 <div class="row">
   <article class="ranking">
@@ -33,7 +33,7 @@
     <!-- <button type="button" class="more">View all solved problems</button> -->
   </article>
   <article class="last-commit">
-    <h1>Last commit</h1>
+    <h1>Last processed commit</h1>
     <dl class="last-commit-stats">
       <dt>Made by</dt>
       <dd class="contributor">
