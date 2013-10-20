@@ -65,6 +65,10 @@ class Rubocop
   validates_presence_of :output
   validates_presence_of :commit_id
 
+  def all_cop_offences_count_and_cop_names
+    return *cop_offences_count_and_cop_names(offences_from_all_files)
+  end
+
   after_create :process_commit_score
   def process_commit_score
     report = repository.repo_report || repository.create_repo_report
@@ -74,6 +78,24 @@ class Rubocop
 
   def repository
     commit.repository
+  end
+
+  private
+  def offences_from_all_files
+    output['files'].collect {|f| f['offences'] }.flatten
+  end
+
+  def cop_offences_count_and_cop_names(offences)
+    by_cop = offences.group_by do |offence|
+      offence['cop_name']
+    end
+    cop_msg = {}
+    cop_count = {}
+    by_cop.each do |cop, offences|
+      cop_msg[cop] = offences.first['message']
+      cop_count[cop] = offences.size
+    end
+    return cop_count, cop_msg
   end
 end
 
