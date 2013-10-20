@@ -1,13 +1,17 @@
 require_relative '../models/repository.rb'
 require_relative '../workers/fetch_repo.rb'
 
-get '/repos' do
+get '/repos/?' do
   redirect to('/')
 end
 
 get '/repos/:user/:name/?' do |user, name|
   @repo = Repository.where(owner: user, name: name).first
-  raise Sinatra::NotFound if @repo.nil?
+
+  if @repo.nil?
+    return erb :'site/error'
+  end
+
   @report = @repo.repo_report
   if @report.nil?
     erb :'repo/loading'
@@ -20,7 +24,7 @@ get '/repos/:user/:name/?' do |user, name|
   end
 end
 
-post '/repos' do
+post '/repos/?' do
   url = params[:url]
   if url =~ %r{https?://(www\.)?github\.com/[^/]+/[^/]+/?}
     repo = Repository.from_url(url)
