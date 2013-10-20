@@ -3,20 +3,26 @@
 <head>
   <title>RubyKaizen</title>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="/stylesheets/main.css">
+  <script type="text/javascript" src="//use.typekit.net/qtf0nfl.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  <link rel="stylesheet" href="/stylesheets/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/stylesheets/main.css" type="text/css" media="screen" title="no title" charset="utf-8">
 </head>
 <body>
-  <header>
-    <h1>RubyKaizen</h1>
-  </header>
+  <nav>
+    <div class="nav-links">
+      <img id="logo"  src="/images/logo_color.png" height="40" width="40" alt="graph"><h1 id="wordmark">Ruby Kaizen</h1>
+      <p><a href="">About this project</a></p>
+    </div><!--nav links-->
+  </nav>
 
-  <article>
-    <%= yield %>
-  </article>
+  <%= yield %>
 
   <footer>
-    <p>Source in
+    <div class="footer-links">
+      <p>Source in
       <a href="https://github.com/railsrumble/r13-team-72">Github</a></p>
+    </div><!--footer links-->
   </footer>
 </body>
 </html>

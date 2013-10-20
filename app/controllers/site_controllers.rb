@@ -4,6 +4,6 @@ get '/' do
 end
 
 get '/repo/waka/?' do
-  erb :'repo/show'
+  erb :'repo/sample_show'
 end
 

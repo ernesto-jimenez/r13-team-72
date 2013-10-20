@@ -11,13 +11,12 @@ class FetchRepo
   rescue Exception => e
     Resque.enqueue self, repo_id
     puts "Performing #{self} caused an exception (#{e}). Retrying..."
-    Kernel.exit
+    raise e
   end
 
   def on_failure_retry(e, *args)
     Resque.enqueue self, *args
     puts "Performing #{self} caused an exception (#{e}). Retrying..."
-    Kernel.exit
   end
 end
 

@@ -47,13 +47,15 @@ class RepoAnalyzer
 
   def run(*cmds)
     stdout, stderr, status = Open3.capture3(*cmds)
-    puts stderr
+    stderr.strip.split("\n").each do |msg|
+      Resque.logger.error(msg)
+    end
     return stdout
   end
 
   def run_rubocop(commit)
+    checkout(commit.sha1)
     Dir.chdir(work_directory) do
-      run('git', 'checkout', commit.sha1)
       report = commit.rubocop || commit.build_rubocop
       report.output = JSON.parse(run('rubocop', '-f', 'json'))
       return report.save
