@@ -7,8 +7,6 @@ gem 'sinatra-partial', :require => 'sinatra/partial'
 gem 'sass'
 gem 'compass'
 gem 'rake'
-gem 'capistrano', '~> 2.15'
-gem "capistrano-resque", "~> 0.1.0", :require => false
 gem 'resque'
 gem 'mongoid', "~> 3.0.0"
 gem "octokit", "~> 2.0"
@@ -21,6 +19,10 @@ group :test do
 end
 
 group :development do
+  gem 'capistrano', '~> 2.15'
   gem 'rerun'
 end
 
+group :production do
+  gem 'god'
+end
