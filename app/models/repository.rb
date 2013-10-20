@@ -8,9 +8,14 @@ class Repository
   field :last_commit, type: String, default: nil
 
   has_many :commits
+  has_one :repo_report
 
   validates_presence_of :owner
   validates_presence_of :name
+
+  def score
+    repo_report.score
+  end
 
   def self.from_url(url)
     repo = Octokit::Repository.from_url(url)
@@ -29,12 +34,13 @@ end
 class Commit
   include Mongoid::Document
   include Mongoid::Timestamps
-  field :subject, type: String      # Commit short message
-  field :sha1, type: String         # Commit hash
-  field :parent_hashes, type: Array # List of parent commit Hashes
-  field :author, type: String       # Commit author name
-  field :author_email, type: String # Commit author email
-  field :changed_files, type: Array # List of files changed
+  field :subject,       type: String  # Commit short message
+  field :sha1,          type: String  # Commit hash
+  field :parent_hashes, type: Array   # List of parent commit Hashes
+  field :author,        type: String  # Commit author name
+  field :author_email,  type: String  # Commit author email
+  field :changed_files, type: Array   # List of files changed
+  field :score,         type: Integer # Score for that commit
 
   belongs_to :repository
   has_one :rubocop
@@ -58,5 +64,16 @@ class Rubocop
 
   validates_presence_of :output
   validates_presence_of :commit_id
+
+  after_create :process_commit_score
+  def process_commit_score
+    report = repository.repo_report || repository.create_repo_report
+    report.process_commit(commit)
+    report.save
+  end
+
+  def repository
+    commit.repository
+  end
 end
 
