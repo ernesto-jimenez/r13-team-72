@@ -7,3 +7,10 @@ get '/repo/waka/?' do
   erb :'repo/sample_show'
 end
 
+get '/error' do
+  erb :'site/error'
+end
+
+get '/waiting' do
+  erb :'site/waiting'
+end
