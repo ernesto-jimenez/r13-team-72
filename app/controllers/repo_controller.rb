@@ -7,6 +7,7 @@ get '/repos/:user/:name/?' do |user, name|
   @all_offences = @last_commit.rubocop['output']['files'].reject do |x|
     x['offences'].empty?
   end
+  @commits = @repo.commits.reverse[1..5]
   raise Sinatra::NotFound if @repo.nil?
   erb :'repo/show'
 end

@@ -44,12 +44,20 @@
       <dt>Message</dt>
       <dd class="message"><%= @last_commit.subject %></dd>
       <dt>Points in this commit</dt>
-      <dd class="score positive"><%= @last_commit.score %> <span class="points-tag">points</span></dd>
+      <dd class="score <%= @last_commit.score > 0 ? 'positive' : 'negative' %>"><%= @last_commit.score %> <span class="points-tag">points</span></dd>
     </dl>
     <a href="<%= github_commit_url @last_commit %>" class="button">View commit details</a>
   </article>
 </div><!--row-->
 <div class="row">
+  <article class="commits-history">
+    <ul>
+      <% @commits.each do |commit| %>
+      <li><a href="<%= github_commit_url commit %>"><%= commit.author %> <%= commit.author_email %> <%= commit.subject %></a></li>  
+      <% end %>
+    </ul>
+  </article>
+  
   <article class="all-offences">
     <h1>All offences</h1>
     <% if @all_offences.empty? %>
@@ -70,3 +78,4 @@
   </article>
 </div>
 </article>
+

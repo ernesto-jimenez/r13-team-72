@@ -165,12 +165,17 @@ img.viz
 .ranking, .last-commit
   h1
     +section-heading
+    
+.last-commit
+  height: 540px
+
+.commits-history
+  +column-1-3-right
 
 dl.last-commit-stats
   margin-top: 30px
   dt
-    font-size: 0.9em
-    text-transform: uppercase
+    font-size: 1em
     font-family: "rooney-sans",sans-serif
     padding-bottom: 10px
     border-bottom: 1px solid $line
@@ -188,7 +193,7 @@ dl.last-commit-stats
     &.positive
       color: $green
     &.negative
-      color: $red
+      color: $orange
 
 dl.repo-stats
   background: $blockBackground
@@ -255,7 +260,7 @@ ol.problems_solved, ol.offenses
 
 button, a.button
   background: none
-  border: 2px solid $button
+  border: 1px solid $button
   color: $button
   box-shadow: none
   width: 100%
@@ -274,6 +279,7 @@ a.button
   display: inline-block
   text-align: center
   line-height: 23px
+  text-decoration: none
 
 nav, footer
   width: 100%
