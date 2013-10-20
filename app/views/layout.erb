@@ -24,6 +24,7 @@
       <a href="https://github.com/railsrumble/r13-team-72">Rails Rumble 2013</a> by <a href="http://twitter.com/ernesto_jimenez" alt="Ernesto Jimenez">@ernesto_jimenez</a>, <a href="http://twitter.com/ladybenko" alt="Belen Albeza">@ladybenko</a> &amp; <a href="https://twitter.com/blanca_tp" alt="Blanca Tortajada">@blanca_tp</a></p>
     </div><!--footer links-->
   </footer>
+<% if ENV['RACK_ENV'] == 'production' %>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -34,5 +35,6 @@
   ga('send', 'pageview');
 
 </script>
+<% end %>
 </body>
 </html>
