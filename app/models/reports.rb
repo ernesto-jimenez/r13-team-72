@@ -1,16 +1,69 @@
 require_relative 'repository'
 
 class RepoReport
+  INITIAL_REPO_SCORE   = 0
+  INITIAL_AUTHOR_SCORE = 0
+
   include Mongoid::Document
   include Mongoid::Timestamps
 
   belongs_to :repository
 
-  field :score, type: Integer
-  field :worst_errors, type: Array
+  field :score,             type: Integer
+  field :worst_errors,      type: Array
+  field :author_scores,     type: Hash
+  field :author_commits,    type: Hash
+  field :author_names,      type: Hash
+  field :processed_commits, type: Array
+
+  def calculate_score
+    self.score             = INITIAL_REPO_SCORE
+    self.author_scores     = nil
+    self.author_names      = nil
+    self.author_commits    = nil
+    self.processed_commits = nil
+
+    repository.commits.each do |commit|
+      process_commit(commit)
+    end
+  end
+
+  def process_commit(commit)
+    self.score             ||= INITIAL_REPO_SCORE
+    self.author_scores     ||= {}
+    self.author_commits    ||= {}
+    self.author_names      ||= {}
+    self.processed_commits ||= []
+
+    return if self.processed_commits.include?(commit.sha1)
+
+    score = CommitReport.new(commit).author_score
+
+    self.score += score
+    author_score = (
+      self.author_scores[commit.author_email] || INITIAL_AUTHOR_SCORE) + score
+    self.author_scores[commit.author_email] = author_score
+    self.processed_commits << commit.sha1
+
+    self.author_names[commit.author_email]   ||= commit.author
+    self.author_commits[commit.author_email] ||= 0
+    self.author_commits[commit.author_email] += 1
+
+    commit.score = score
+    commit.save
+  rescue CommitReport::NoRubocop
+  end
+
+  def recalculate_score!
+    calculate_score
+    save
+  end
+
+  before_create :calculate_score
 end
 
 class CommitReport
+  class NoRubocop < StandardError; end
   attr_reader :commit
 
   def initialize(commit)
@@ -20,9 +73,9 @@ class CommitReport
     else
       nil
     end
-    raise 'Need Rubocop data' if @commit.rubocop.nil?
+    raise NoRubocop if @commit.rubocop.nil?
 
-    @delta_offenses = nil
+    @delta_offences = nil
   end
 
   def changed_files
@@ -34,7 +87,24 @@ class CommitReport
   end
 
   def author_score
-    100
+    total_changed = changed_files.size
+    # No points when no files have been changed
+    return 0 if total_changed == 0
+
+    # Calculate amount of offences added
+    added_offences = delta_offences.collect { |f| f['delta_amount'] }.sum
+
+    # 10 is the base punctuation when no offences are added/removed
+    return 10 if added_offences == 0
+
+    if added_offences > 0
+      # Take less points when changing more files
+      multiplier = added_offences / total_changed
+    elsif
+      # Add more points when changing more files
+      multiplier = added_offences * total_changed
+    end
+    return (multiplier * -10)
   end
 
   def delta_offences
