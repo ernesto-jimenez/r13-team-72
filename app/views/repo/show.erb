@@ -5,7 +5,7 @@
     <span class="repo-owner"><%= @repo.owner %> / </span><%= @repo.name %>
     </a>
   </h1>
-  <span class="score-tag"><%= @report.processed_commits.count %> commits - <%= @report.score %> points</span>
+  <span class="score-tag"><%= @report.processed_commits.count %> commits | <%= @report.score %> points</span>
 </header><!--heading-->
 <div class="row">
   <article class="ranking">
@@ -51,9 +51,15 @@
 </div><!--row-->
 <div class="row">
   <article class="commits-history">
-    <ul>
+    <h1>Previous commits</h1>
+    <ul class="list-commits-history">
       <% @commits.each do |commit| %>
-      <li><a href="<%= github_commit_url commit %>"><%= commit.author %> <%= commit.author_email %> <%= commit.subject %></a></li>  
+      <li>
+        <a href="<%= github_commit_url commit %>">
+          <p class="author"><%= commit.author %></p> 
+          <p class="subject"><%= commit.subject %></p>
+        </a>
+      </li>  
       <% end %>
     </ul>
   </article>
@@ -67,9 +73,7 @@
         <dt><%= file['path'] %></dt>
         <% offences_by_severity(file['offences']).each do |offence| %>
           <dd class="<%= offence['severity'] %>">
-            <i class="<%= icon_for_severity offence['severity'] %>"></i>
-            <a href="<%= github_file_url @last_commit, file['path'], offence['location']['line'] %>">
-              <span class="location"><%= offence['location']['line'] %></span> <%= offence['message'] %>
+            <span class="location"><i class="<%= icon_for_severity offence['severity'] %>"></i> <%= offence['location']['line'] %></span><a href="<%= github_file_url @last_commit, file['path'], offence['location']['line'] %>"><%= offence['message'] %>
             </a></dd>
         <% end %>
       <% end %></dl>
