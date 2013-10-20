@@ -6,4 +6,13 @@ helpers do
        :name => report.author_names[x[0]]}
     end
   end
+
+  def icon_for_severity(severity)
+    case severity
+    when 'fatal' then 'icon-fire'
+    when 'error' then 'icon-remove-sign'
+    when 'warning' then 'icon-warning-sign'
+    else 'icon-flag'
+    end
+  end
 end

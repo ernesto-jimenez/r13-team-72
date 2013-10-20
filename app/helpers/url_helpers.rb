@@ -33,7 +33,6 @@ helpers do
     require 'digest/md5'
     hash = Digest::MD5.hexdigest(email)
     query_string = size.nil? ? '' : "?s=#{size}"
-    image_src = "http://www.gravatar.com/avatar/#{hash}/#{query_string}"
-    return image_src
+    return "http://www.gravatar.com/avatar/#{hash}/#{query_string}"
   end
 end
