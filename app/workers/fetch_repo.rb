@@ -9,5 +9,11 @@ class FetchRepo
     analyzer = RepoAnalyzer.new(repo)
     analyzer.analyze_last_commits
   end
+
+  def on_failure_retry(e, *args)
+    Logger.info "Performing #{self} caused an exception (#{e}). Retrying..."
+    Resque.enqueue self, *args
+    Kernel.exit
+  end
 end
 
