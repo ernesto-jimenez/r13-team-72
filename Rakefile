@@ -40,6 +40,22 @@ task :recalculate_scores_for, :repo do |t, args|
   report.recalculate_score!
 end
 
+desc 'Feature repo'
+task :feature, :repo do |t, args|
+  repo = Repository.from_url(args[:repo])
+  puts repo.name
+  repo.featured = true
+  repo.save
+end
+
+desc 'Unfeature repo'
+task :unfeature, :repo do |t, args|
+  repo = Repository.from_url(args[:repo])
+  puts repo.name
+  repo.featured = false
+  repo.save
+end
+
 desc 'Recalculate commit and repo scores!'
 task :recalculate_scores do
   puts "Recalculating scores..."
