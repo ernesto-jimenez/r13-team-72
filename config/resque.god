@@ -1,6 +1,6 @@
 rack_env   = ENV['RACK_ENV']  || "production"
 rack_root  = ENV['RACK_ROOT'] || "/var/www/apps/railsrumble/current"
-num_workers = rack_env == 'production' ? 5 : 2
+num_workers = rack_env == 'production' ? 2 : 1
 
 num_workers.times do |num|
   God.watch do |w|
