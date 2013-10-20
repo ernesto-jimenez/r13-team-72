@@ -11,8 +11,8 @@ num_workers.times do |num|
     w.env      = {"QUEUE"=>"*", "RACK_ENV"=>rack_env}
     w.start    = "bundle exec rake -f #{rack_root}/Rakefile resque:work"
 
-    w.uid = 'www-data'
-    w.gid = 'www-data'
+    w.uid = ENV['RESQUE_USER'] || 'www-data'
+    w.gid = ENV['RESQUE_GROUP'] || 'www-data'
 
     # restart if memory gets too high
     w.transition(:up, :restart) do |on|
