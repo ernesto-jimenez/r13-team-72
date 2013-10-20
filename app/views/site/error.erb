@@ -1,10 +1,10 @@
 <article id="main">
   <header class="error">
   <h1>Oops! We can't find the repository you were looking for.</h1>
-  <div id="search-bar">
-    <input type="text" name="repo-name-search" placeholder="Try again or enter another URL">
-    <button type="button" class="search">Search</button>
-  </div><!--search bar-->
+  <form id="search-bar" action="/repos" method="post" accept-charset="utf-8">
+    <input type="text" name="url" placeholder="Try again or enter another URL">
+    <button type="submit" class="search">Search</button>
+  </form><!--search bar-->
   </header>
   <div class="repo-browse">
     <h1>You can also browse these repositories</h1>
