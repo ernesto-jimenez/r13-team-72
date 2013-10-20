@@ -1,29 +1,20 @@
 <article id="main">
 <header class="project">
   <h1 class="project-name">
+    <a href="<%= @repo.github_url %>">
     <span class="repo-owner"><%= @repo.owner %> / </span><%= @repo.name %>
+    </a>
   </h1>
-  <span class="score-tag"><i class="icon-rocket"></i> You rock!</span>
+  <span class="score-tag"><%= @report.score %> points</span>
 </header><!--heading-->
 <div class="row">
-  <section id="viz">
-    <header class="block"><h1>Repository history</h1></header>
-    <img class="viz" src="/images/graph.svg" height="252" width="710" alt="graph">
-  </section>
-  <dl class="repo-stats">
-    <dt><h1>Ruby Kaizen points</h1></dt>
-    <dd class="number"><%= @report.score %></dd>
-  </dl><!--repo stats-->
-</div><!--row-->
-
-<div class="row">
   <article class="ranking">
-    <h1>Contributors by score</h1>
+    <h1>Top 5 authors</h1>
     <ol class="contributors">
-      <% contributors_by_score(@report).each do |author| %>
+      <% contributors_by_score(@report)[0..4].each do |author| %>
       <li>
-        <aside><img src="<%= gravatar_url author[:email], 60 %>" height="60" width="60" alt="avatar"></aside>
-        <p class="name"><%= author[:name] %></p>
+      <aside><a href="<%= github_repo_commits_by(@repo, author[:email]) %>"><img src="<%= gravatar_url author[:email], 60 %>" height="60" width="60" alt="avatar"></a></aside>
+        <p class="name"><a href="<%= github_repo_commits_by(@repo, author[:email]) %>"><%= author[:name] %></a></p>
         <p class="score"><%= author[:score] %> <span class="points-tag">points</span></p>
       </li>
       <% end %>
@@ -46,9 +37,8 @@
     <dl class="last-commit-stats">
       <dt>Made by</dt>
       <dd class="contributor">
-        <aside><img src="<%= gravatar_url @last_commit.author_email, 60 %>" height="60" width="60"
-          alt="avatar"></aside>
-        <p class="name"><%= @last_commit.author %><p>
+        <aside><a href="<%= github_repo_commits_by(@repo, @last_commit.author_email) %>"><img src="<%= gravatar_url @last_commit.author_email, 60 %>" height="60" width="60" alt="avatar"></a></aside>
+        <p class="name"><a href="<%= github_repo_commits_by(@repo, @last_commit.author_email) %>"><%= @last_commit.author %></a></p>
         <p class="score"><%= @report.author_scores[@last_commit.author_email] %> <span class="points-tag">points</span></p>
       </dd>
       <dt>Message</dt>
@@ -56,7 +46,7 @@
       <dt>Points in this commit</dt>
       <dd class="score positive"><%= @last_commit.score %> <span class="points-tag">points</span></dd>
     </dl>
-    <a href="<%= commit_url @last_commit %>" class="button">View commit details</a>
+    <a href="<%= github_commit_url @last_commit %>" class="button">View commit details</a>
   </article>
 </div><!--row-->
 </article>

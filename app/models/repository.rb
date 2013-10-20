@@ -29,6 +29,10 @@ class Repository
   def clone_url
     "#{octokit_repo.url}.git"
   end
+
+  def github_url
+    octokit_repo.url
+  end
 end
 
 class Commit
@@ -91,9 +95,9 @@ class Rubocop
     end
     cop_msg = {}
     cop_count = {}
-    by_cop.each do |cop, offences|
-      cop_msg[cop] = offences.first['message']
-      cop_count[cop] = offences.size
+    by_cop.each do |cop, list|
+      cop_msg[cop] = list.first['message']
+      cop_count[cop] = list.size
     end
     return cop_count, cop_msg
   end
