@@ -7,3 +7,6 @@ rubykaizen.sublime-*
 .bundle
 vendor/bundles/**/*
 bin/*
+repos/*
+dump.rdb
+log/*

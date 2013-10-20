@@ -19,8 +19,10 @@ configure do
   # partials plugin
   set :partial_template_engine, :erb
   enable :partial_underscores
-end
+  Resque.redis = Redis.new
 
+  Mongoid.load!(File.join(__dir__, '..', 'config', 'mongoid.yml'))
+end
 
 configure :development do
 end

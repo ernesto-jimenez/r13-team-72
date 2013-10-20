@@ -7,7 +7,11 @@ gem 'sinatra-partial', :require => 'sinatra/partial'
 gem 'sass'
 gem 'compass'
 gem 'rake'
-gem 'capistrano', '~> 2.15'
+gem 'resque'
+gem 'mongoid', "~> 3.0.0"
+gem "octokit", "~> 2.0"
+gem 'rugged', git: 'git://github.com/libgit2/rugged.git', branch: 'development', submodules: true
+gem 'rubocop', :require => false
 
 group :test do
   gem 'rspec'
@@ -15,11 +19,11 @@ group :test do
 end
 
 group :development do
+  gem 'capistrano', '~> 2.15'
   gem 'rerun'
 end
 
 group :production do
-  gem 'mysql2'
-  gem 'therubyracer'
+  gem 'god'
 end
 
